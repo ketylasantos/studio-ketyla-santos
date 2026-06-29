@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>Estudio Ketyla Santos</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C9A96E;--gl:#E8D5B0;--gp:#F7F0E3;--nu:#8B6F5E;--nm:#C4A99A;--np:#F2EAE4;--ink:#2A1F1A;--is:#5C4A42;--wh:#FDFAF6;--sf:#FAF6F0;--bd:#E5D8C8;--gr:#6BAA8E;--rd:#C0392B;--nav:66px;}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;overflow:hidden;}
+body{font-family:Jost,sans-serif;background:var(--sf);color:var(--ink);font-weight:300;}
+.app{display:flex;flex-direction:column;height:100dvh;}
+.hdr{background:var(--ink);padding:11px 14px;display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.hdr-n{font-family:"Cormorant Garamond",serif;font-size:15px;font-weight:300;color:var(--gl);letter-spacing:.1em;text-transform:uppercase;}
+.hdr-t{font-size:8px;color:var(--nm);letter-spacing:.2em;text-transform:uppercase;margin-top:1px;}
+.hbtns{display:flex;gap:5px;}
+.hb{width:33px;height:33px;border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.hbg{background:var(--gold);color:var(--wh);font-size:18px;}
+.hbo{background:rgba(201,169,110,.18);color:var(--gl);font-size:12px;}
+.body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+.sc{display:none;padding:14px 13px calc(var(--nav) + 14px);}
+.sc.active{display:block;}
+.nav{position:fixed;bottom:0;left:0;right:0;height:var(--nav);background:var(--ink);display:flex;z-index:100;border-top:1px solid rgba(201,169,110,.1);padding-bottom:env(safe-area-inset-bottom);}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:none;background:none;color:rgba(242,234,228,.3);font-size:8px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;padding:0 2px;}
+.nb.active{color:var(--gold);}
+.nbi{font-size:15px;line-height:1;}
+.card{background:var(--wh);border:1px solid var(--bd);border-radius:11px;padding:14px;margin-bottom:12px;}
+.cdark{background:var(--ink);border-radius:11px;padding:16px;margin-bottom:12px;}
+.fg{margin-bottom:12px;}
+.fl{display:block;font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--nu);margin-bottom:4px;}
+.fi,.fsl,.fta{width:100%;padding:10px 12px;font-family:Jost,sans-serif;font-size:15px;font-weight:300;color:var(--ink);background:var(--wh);border:1.5px solid var(--bd);border-radius:7px;outline:none;-webkit-appearance:none;}
+.fi:focus,.fsl:focus,.fta:focus{border-color:var(--gold);}
+.fta{resize:vertical;min-height:75px;}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.btn{display:flex;align-items:center;justify-content:center;padding:12px 18px;font-family:Jost,sans-serif;font-size:11px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;border-radius:7px;cursor:pointer;border:none;width:100%;}
+.btng{background:var(--gold);color:var(--wh);}
+.btng:active{background:var(--nu);}
+.btno{background:transparent;border:1.5px solid var(--bd);color:var(--is);}
+.fbig{font-family:"Cormorant Garamond",serif;font-size:38px;font-weight:300;line-height:1;color:var(--gl);}
+.flbl{font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:rgba(201,169,110,.5);margin-bottom:3px;}
+.frow{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(201,169,110,.12);}
+.fc{flex:1;}
+.fcv{font-family:"Cormorant Garamond",serif;font-size:22px;font-weight:300;color:var(--gl);}
+.fcl{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(201,169,110,.4);margin-bottom:2px;}
+.cgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;}
+.ch{text-align:center;font-size:8px;font-weight:500;letter-spacing:.06em;color:var(--nm);padding:2px 0;}
+.cd{display:flex;flex-direction:column;align-items:center;border-radius:5px;cursor:pointer;padding:2px 1px;min-height:40px;}
+.cd:active{background:var(--gp);}
+.cd.today{background:var(--gold);color:var(--wh);}
+.cd.sel{outline:2px solid var(--gold);}
+.cd.om{opacity:.25;}
+.cdn{font-size:11px;line-height:1.5;}
+.cdv{font-size:7px;font-weight:500;line-height:1.2;text-align:center;}
+.cdv.e{color:var(--gr);}
+.cdv.s{color:#e07070;}
+.cd.today .cdv{color:rgba(255,255,255,.82);}
+.ei{background:var(--wh);border:1px solid var(--bd);border-radius:9px;padding:12px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.eic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.eice{background:rgba(107,170,142,.12);border:1px solid rgba(107,170,142,.22);}
+.eics{background:rgba(192,57,43,.09);border:1px solid rgba(192,57,43,.18);}
+.einf{flex:1;min-width:0;}
+.eina{font-size:13px;font-weight:400;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.eime{font-size:10px;color:var(--nm);margin-top:1px;}
+.eiva{font-family:"Cormorant Garamond",serif;font-size:19px;font-weight:300;white-space:nowrap;}
+.eive{color:var(--gr);}
+.eivs{color:#e07070;}
+.edel{background:none;border:none;cursor:pointer;color:var(--nm);font-size:14px;padding:3px;flex-shrink:0;}
+.ttag{display:inline-block;padding:1px 5px;border-radius:3px;font-size:8px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;background:rgba(192,57,43,.08);color:#c0392b;margin-top:2px;}
+.sbox{position:absolute;top:100%;left:0;right:0;z-index:50;background:var(--wh);border:1.5px solid var(--gold);border-radius:7px;margin-top:2px;overflow:hidden;box-shadow:0 4px 14px rgba(42,31,26,.1);}
+.si{padding:10px 13px;font-size:13px;color:var(--ink);cursor:pointer;border-bottom:1px solid var(--bd);}
+.si:last-child{border-bottom:none;}
+.si:active{background:var(--gp);}
+.panel{display:none;position:fixed;inset:0;background:var(--wh);z-index:200;flex-direction:column;}
+.panel.open{display:flex;}
+.ptop{background:var(--np);border-bottom:1px solid var(--bd);padding:11px 13px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.pback{background:none;border:none;cursor:pointer;color:var(--gold);font-size:21px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.pavw{position:relative;width:44px;height:44px;flex-shrink:0;}
+.pav{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--nm));display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:16px;color:var(--wh);overflow:hidden;border:2px solid var(--gl);cursor:pointer;}
+.pav img{width:100%;height:100%;object-fit:cover;}
+.pavb{position:absolute;bottom:-1px;right:-1px;width:15px;height:15px;border-radius:50%;background:var(--gold);border:2px solid var(--wh);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--wh);cursor:pointer;}
+.phi{flex:1;min-width:0;}
+.pcn{font-family:"Cormorant Garamond",serif;font-size:18px;font-weight:300;font-style:italic;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pcs{font-size:10px;color:var(--nm);margin-top:1px;}
+.px{background:none;border:none;cursor:pointer;color:var(--nm);font-size:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.ptabs{display:flex;overflow-x:auto;border-bottom:1px solid var(--bd);background:var(--wh);flex-shrink:0;}
+.ptabs::-webkit-scrollbar{display:none;}
+.ptab{padding:10px 15px;white-space:nowrap;font-size:9px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--nm);cursor:pointer;border-bottom:2px solid transparent;background:none;border-top:none;border-left:none;border-right:none;flex-shrink:0;}
+.ptab.active{color:var(--gold);border-bottom-color:var(--gold);}
+.pscrl{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+.pb{padding:16px 13px 28px;}
+.psec{display:none;}
+.psec.active{display:block;}
+.tli{display:flex;gap:10px;padding-bottom:16px;position:relative;}
+.tli::before{content:"";position:absolute;left:12px;top:26px;bottom:0;width:1px;background:var(--bd);}
+.tli:last-child::before{display:none;}
+.tld{width:26px;height:26px;border-radius:50%;background:var(--gp);border:2px solid var(--gl);display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:2px;}
+.tlc{flex:1;background:var(--sf);border:1px solid var(--bd);border-radius:7px;padding:10px 12px;}
+.tldt{font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--nm);margin-bottom:2px;}
+.tltt{font-size:12px;font-weight:400;color:var(--ink);}
+.tlno{font-size:11px;color:var(--is);line-height:1.5;margin-top:2px;}
+.tlpr{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;}
+.ptag{font-size:9px;padding:1px 5px;background:rgba(139,111,94,.09);color:var(--nu);border-radius:3px;}
+.pgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.pitem{aspect-ratio:1;border-radius:7px;overflow:hidden;position:relative;background:var(--np);border:1px solid var(--bd);}
+.pitem img{width:100%;height:100%;object-fit:cover;}
+.plbl{position:absolute;bottom:0;left:0;right:0;padding:4px 6px;background:rgba(42,31,26,.58);font-size:8px;color:rgba(255,255,255,.88);letter-spacing:.06em;text-transform:uppercase;}
+.prm{position:absolute;top:4px;right:4px;background:rgba(42,31,26,.58);border:none;border-radius:50%;width:19px;height:19px;color:white;font-size:9px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.tagsc{display:flex;flex-wrap:wrap;gap:4px;padding:8px 10px;border:1.5px solid var(--bd);border-radius:7px;background:var(--wh);min-height:42px;align-items:center;cursor:text;}
+.tagsc:focus-within{border-color:var(--gold);}
+.tagsc input{border:none;outline:none;background:transparent;font-family:Jost,sans-serif;font-size:13px;font-weight:300;color:var(--ink);flex:1;min-width:70px;}
+.tagi{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;background:rgba(201,169,110,.13);border:1px solid rgba(201,169,110,.28);border-radius:14px;font-size:10px;color:var(--nu);}
+.chip{display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:14px;background:rgba(201,169,110,.1);border:1px solid rgba(201,169,110,.26);font-size:10px;color:var(--nu);}
+.chipa{background:rgba(192,57,43,.07);border-color:rgba(192,57,43,.18);color:#a93226;}
+.cr{cursor:pointer;color:var(--nm);}
+.ir{display:flex;gap:7px;margin-bottom:6px;}
+.ir .fi{flex:1;}
+.div{height:1px;background:var(--bd);margin:14px 0;}
+.cc{background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:13px;display:flex;align-items:center;gap:11px;margin-bottom:10px;cursor:pointer;}
+.cc:active{background:var(--gp);}
+.cav{width:50px;height:50px;border-radius:50%;flex-shrink:0;background:linear-gradient(135deg,var(--gl),var(--nm));display:flex;align-items:center;justify-content:center;font-family:"Cormorant Garamond",serif;font-size:18px;color:var(--wh);overflow:hidden;border:2px solid var(--bd);position:relative;}
+.cav img{width:100%;height:100%;object-fit:cover;}
+.ced{position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:var(--gold);border:2px solid var(--wh);display:flex;align-items:center;justify-content:center;font-size:7px;color:var(--wh);}
+.ci{flex:1;min-width:0;}
+.cn{font-size:13px;font-weight:400;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cs{font-size:10px;color:var(--nm);margin-top:2px;}
+.cst{display:flex;gap:9px;margin-top:4px;}
+.cstat{font-size:9px;color:var(--nm);}
+.cstat strong{color:var(--is);font-weight:500;}
+.badge{display:inline-block;padding:2px 6px;border-radius:14px;font-size:8px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;}
+.ba{background:rgba(201,169,110,.13);color:var(--gold);}
+.bn{background:rgba(139,111,94,.09);color:var(--nu);}
+.empty{text-align:center;padding:32px 14px;color:var(--nm);}
+.ei2{font-size:30px;margin-bottom:8px;}
+.et{font-size:12px;font-weight:300;line-height:1.7;}
+.stgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.stc{background:var(--wh);border:1px solid var(--bd);border-radius:9px;padding:13px;}
+.stl{font-size:8px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--nm);margin-bottom:4px;}
+.stv{font-family:"Cormorant Garamond",serif;font-size:28px;font-weight:300;color:var(--ink);line-height:1;}
+.sts{font-size:9px;color:var(--nm);margin-top:2px;}
+.tski{display:flex;align-items:flex-start;gap:8px;padding:8px 0;border-bottom:1px solid var(--bd);}
+.tski:last-child{border-bottom:none;}
+.tck{width:20px;height:20px;border-radius:50%;border:2px solid var(--bd);flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;background:none;}
+.tck.done{background:var(--gold);border-color:var(--gold);color:white;font-size:9px;}
+.ttxt{flex:1;font-size:12px;color:var(--ink);font-weight:300;line-height:1.4;}
+.ttxt.done{text-decoration:line-through;color:var(--nm);}
+.turg{font-size:8px;padding:1px 4px;border-radius:7px;background:rgba(192,57,43,.09);color:#c0392b;font-weight:500;}
+.tdel{background:none;border:none;color:var(--nm);cursor:pointer;font-size:12px;padding:0 2px;}
+.upt{background:var(--wh);border:1px solid var(--bd);border-radius:9px;padding:11px 12px;margin-bottom:7px;display:flex;align-items:center;gap:9px;cursor:pointer;}
+.esti{background:var(--wh);border:1px solid var(--bd);border-radius:10px;padding:12px 13px;margin-bottom:8px;display:flex;align-items:center;gap:10px;}
+.estph{width:52px;height:52px;border-radius:7px;background:var(--np);border:1px solid var(--bd);overflow:hidden;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.estph img{width:100%;height:100%;object-fit:cover;}
+.mov{display:none;position:fixed;inset:0;background:rgba(42,31,26,.52);z-index:300;align-items:flex-end;backdrop-filter:blur(4px);}
+.mov.open{display:flex;}
+.modal{background:var(--wh);width:100%;border-radius:16px 16px 0 0;max-height:92vh;overflow-y:auto;padding-bottom:env(safe-area-inset-bottom);}
+.mh{width:32px;height:4px;background:var(--bd);border-radius:2px;margin:10px auto 0;}
+.mhdr{padding:13px 16px 11px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;}
+.mt{font-family:"Cormorant Garamond",serif;font-size:20px;font-weight:400;font-style:italic;color:var(--ink);}
+.mx{background:none;border:none;cursor:pointer;color:var(--nm);font-size:16px;width:28px;height:28px;display:flex;align-items:center;justify-content:center;}
+.mbody{padding:14px 16px 20px;}
+.toast{position:fixed;bottom:calc(var(--nav) + 9px);left:50%;transform:translateX(-50%) translateY(14px);background:var(--ink);color:var(--gl);padding:9px 16px;border-radius:20px;font-size:12px;white-space:nowrap;z-index:999;opacity:0;transition:all .3s;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.ltag{display:inline-block;padding:1px 6px;border-radius:3px;font-size:9px;background:rgba(107,170,142,.1);color:var(--gr);border:1px solid rgba(107,170,142,.2);margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="hdr">
+    <div><div class="hdr-n">Estudio Ketyla Santos</div><div class="hdr-t">Cuidado Facial</div></div>
+    <div class="hbtns">
+      <button class="hb hbo" id="btn-exp" title="Exportar">&#11015;</button>
+      <button class="hb hbg" id="btn-new">+</button>
+    </div>
+  </header>
+  <div class="body">
+    <div class="sc active" id="sc-clientes">
+      <div style="display:flex;align-items:center;gap:8px;background:var(--wh);border:1px solid var(--bd);border-radius:20px;padding:8px 13px;margin-bottom:13px">
+        <span style="color:var(--nm);font-size:14px">&#9906;</span>
+        <input type="text" id="search-inp" placeholder="Buscar cliente..." style="border:none;background:transparent;outline:none;font-family:Jost,sans-serif;font-size:13px;font-weight:300;color:var(--ink);width:100%">
+      </div>
+      <div id="cli-list"></div>
+      <input type="file" id="qp-inp" style="display:none" accept="image/*">
+    </div>
+    <div class="sc" id="sc-financeiro">
+      <div class="cdark">
+        <div class="flbl">Entradas do Mes</div>
+        <div class="fbig" id="fme">R$ 0,00</div>
+        <div class="frow">
+          <div class="fc"><div class="fcl">Saidas</div><div class="fcv" id="fms" style="color:#e07070">R$0</div></div>
+          <div class="fc"><div class="fcl">Saldo</div><div class="fcv" id="fsl">R$0</div></div>
+          <div class="fc"><div class="fcl">Total Geral</div><div class="fcv" id="ftg">R$0</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <button id="fcp" style="background:none;border:none;color:var(--gold);font-size:19px;cursor:pointer;padding:2px 7px">&#8249;</button>
+          <div id="fct" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;font-style:italic;color:var(--ink)"></div>
+          <button id="fcn" style="background:none;border:none;color:var(--gold);font-size:19px;cursor:pointer;padding:2px 7px">&#8250;</button>
+        </div>
+        <div class="cgrid" style="margin-bottom:3px">
+          <div class="ch">D</div><div class="ch">S</div><div class="ch">T</div><div class="ch">Q</div><div class="ch">Q</div><div class="ch">S</div><div class="ch">S</div>
+        </div>
+        <div class="cgrid" id="fc-grid"></div>
+        <div id="fc-det" style="display:none;margin-top:11px;padding-top:11px;border-top:1px solid var(--bd)"></div>
+      </div>
+      <div class="card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:17px;color:var(--ink);margin-bottom:12px">Registrar Lancamento</div>
+        <div class="fr" style="margin-bottom:0">
+          <div class="fg"><label class="fl">Tipo</label><select class="fsl" id="fin-tipo"><option value="entrada">&#8593; Entrada</option><option value="saida">&#8595; Saida</option></select></div>
+          <div class="fg"><label class="fl">Valor (R$)</label><input class="fi" id="fin-val" type="number" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+        </div>
+        <div class="fg" style="position:relative">
+          <label class="fl">Descricao</label>
+          <input class="fi" id="fin-proc" type="text" placeholder="Digite ou escolha..." autocomplete="off">
+          <div id="proc-sug" class="sbox" style="display:none"></div>
+        </div>
+        <div class="fr" style="margin-bottom:0">
+          <div class="fg"><label class="fl">Data</label><input class="fi" id="fin-date" type="date"></div>
+          <div class="fg" style="position:relative"><label class="fl">Local</label><input class="fi" id="fin-loc" type="text" placeholder="Digite ou escolha..." autocomplete="off"><div id="loc-sug" class="sbox" style="display:none"></div></div>
+        </div>
+        <div class="fg"><label class="fl">Cliente</label><input class="fi" id="fin-cli" type="text" placeholder="Nome (opcional)"></div>
+        <button class="btn btng" id="btn-reg">+ Registrar</button>
+      </div>
+      <div class="cdark">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:11px">
+          <div><div class="flbl">Despesas Fixas Mensais</div><div style="font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:300;color:#e07070" id="desp-tot">R$ 0,00</div></div>
+        </div>
+        <div id="desp-list" style="margin-bottom:11px"></div>
+        <div style="display:flex;gap:7px;margin-bottom:7px">
+          <input class="fi" id="desp-nome" type="text" placeholder="Nome da despesa..." style="flex:1;background:rgba(255,255,255,.07);border-color:rgba(201,169,110,.18);color:var(--gl);font-size:13px">
+          <input class="fi" id="desp-val" type="number" inputmode="decimal" placeholder="0,00" style="width:100px;background:rgba(255,255,255,.07);border-color:rgba(201,169,110,.18);color:var(--gl);font-size:13px">
+        </div>
+        <button class="btn" id="btn-desp" style="background:rgba(201,169,110,.15);color:var(--gl);border:1px solid rgba(201,169,110,.25);font-size:11px">+ Adicionar</button>
+      </div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--nu);margin-bottom:8px">Ultimos Registros</div>
+      <div id="ent-list"></div>
+    </div>
+    <div class="sc" id="sc-dashboard">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:12px">Visao Geral</div>
+      <div class="stgrid">
+        <div class="stc"><div class="stl">Clientes</div><div class="stv" id="d-cli">0</div><div class="sts">cadastradas</div></div>
+        <div class="stc"><div class="stl">Tratamentos</div><div class="stv" id="d-treat">0</div><div class="sts">registrados</div></div>
+        <div class="stc"><div class="stl">Semana</div><div class="stv" id="d-wk">R$0</div><div class="sts">entradas</div></div>
+        <div class="stc"><div class="stl">Mes</div><div class="stv" id="d-mo">R$0</div><div class="sts">entradas</div></div>
+      </div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--nu);margin-bottom:11px">Este Mes em Detalhe</div>
+        <div style="display:flex;gap:9px">
+          <div style="flex:1;background:rgba(107,170,142,.07);border:1px solid rgba(107,170,142,.18);border-radius:8px;padding:11px;text-align:center">
+            <div style="font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gr);margin-bottom:3px">Procedimentos</div>
+            <div id="d-proc-v" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--ink)">R$0</div>
+            <div id="d-proc-c" style="font-size:9px;color:var(--nm);margin-top:1px">0</div>
+          </div>
+          <div style="flex:1;background:rgba(201,169,110,.07);border:1px solid rgba(201,169,110,.18);border-radius:8px;padding:11px;text-align:center">
+            <div style="font-size:8px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px">Cursos</div>
+            <div id="d-curso-v" style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:300;color:var(--ink)">R$0</div>
+            <div id="d-curso-c" style="font-size:9px;color:var(--nm);margin-top:1px">0</div>
+          </div>
+        </div>
+      </div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:10px">Clientes Recentes</div>
+      <div id="d-rec"></div>
+    </div>
+    <div class="sc" id="sc-tarefas">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:12px">Tarefas e Lembretes</div>
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+          <button id="cp" style="background:none;border:none;color:var(--gold);font-size:19px;cursor:pointer;padding:2px 7px">&#8249;</button>
+          <div id="ct" style="font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:400;font-style:italic;color:var(--ink)"></div>
+          <button id="cn" style="background:none;border:none;color:var(--gold);font-size:19px;cursor:pointer;padding:2px 7px">&#8250;</button>
+        </div>
+        <div class="cgrid" style="margin-bottom:4px">
+          <div class="ch">D</div><div class="ch">S</div><div class="ch">T</div><div class="ch">Q</div><div class="ch">Q</div><div class="ch">S</div><div class="ch">S</div>
+        </div>
+        <div class="cgrid" id="cal-grid"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:9px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--nu);margin-bottom:8px" id="sdlbl">Selecione uma data</div>
+        <div style="display:flex;gap:6px;margin-bottom:8px">
+          <input class="fi" id="task-inp" type="text" placeholder="Nova tarefa ou lembrete..." style="flex:1;font-size:13px">
+          <select class="fsl" id="task-pri" style="width:80px;padding:9px 6px;font-size:10px"><option value="normal">Normal</option><option value="urgente">Urgente</option></select>
+        </div>
+        <button class="btn btng" id="btn-task" style="margin-bottom:10px">+ Adicionar</button>
+        <div id="day-tasks"></div>
+      </div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--nu);margin-bottom:8px">Proximas Tarefas</div>
+      <div id="all-tasks"></div>
+    </div>
+    <div class="sc" id="sc-estoque">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:400;font-style:italic;color:var(--ink);margin-bottom:12px">Estoque</div>
+      <div class="card">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--ink);margin-bottom:11px">Adicionar Produto</div>
+        <div style="margin-bottom:11px;display:flex;align-items:center;gap:11px">
+          <div id="est-prev" style="width:64px;height:64px;border-radius:8px;background:var(--np);border:2px dashed var(--bd);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;flex-shrink:0;font-size:20px">&#128230;</div>
+          <button class="btn btno" id="btn-ef" style="padding:8px 12px;font-size:10px;width:auto">+ Foto</button>
+          <input type="file" id="est-ph-inp" style="display:none" accept="image/*">
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Nome</label><input class="fi" id="est-nome" type="text" placeholder="Nome..."></div>
+          <div class="fg"><label class="fl">Quantidade</label><input class="fi" id="est-qtd" type="number" inputmode="numeric" placeholder="0" min="0"></div>
+        </div>
+        <div class="fr">
+          <div class="fg"><label class="fl">Valor (R$)</label><input class="fi" id="est-val" type="number" inputmode="decimal" placeholder="0,00" min="0" step="0.01"></div>
+          <div class="fg"><label class="fl">Fornecedor</label><input class="fi" id="est-forn" type="text" placeholder="Nome..."></div>
+        </div>
+        <div class="fg"><label class="fl">Telefone</label><input class="fi" id="est-fone" type="tel" placeholder="(00) 00000-0000"></div>
+        <button class="btn btng" id="btn-est-add">+ Adicionar ao Estoque</button>
+      </div>
+      <div style="font-size:9px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--nu);margin-bottom:8px">Produtos em Estoque</div>
+      <div id="est-list"></div>
+    </div>
+  </div>
+  <nav class="nav">
+    <button class="nb active" data-s="clientes"><span class="nbi">&#9711;</span><span>Clientes</span></button>
+    <button class="nb" data-s="financeiro"><span class="nbi">&#9672;</span><span>Financeiro</span></button>
+    <button class="nb" data-s="dashboard"><span class="nbi">&#10022;</span><span>Dashboard</span></button>
+    <button class="nb" data-s="tarefas"><span class="nbi">&#9998;</span><span>Tarefas</span></button>
+    <button class="nb" data-s="estoque"><span class="nbi">&#9671;</span><span>Estoque</span></button>
+  </nav>
+</div>
+<div class="panel" id="cpanel">
+  <div class="ptop">
+    <button class="pback" id="pb">&#8249;</button>
+    <div class="pavw"><div class="pav" id="pav"></div><div class="pavb" id="pavb">&#9998;</div><input type="file" id="p-ph" style="display:none" accept="image/*"></div>
+    <div class="phi"><div class="pcn" id="pname"></div><div class="pcs" id="psub"></div></div>
+    <button class="px" id="pclose">&#10005;</button>
+  </div>
+  <div class="ptabs">
+    <button class="ptab active" data-tab="dados">Dados</button>
+    <button class="ptab" data-tab="tratamentos">Tratamentos</button>
+    <button class="ptab" data-tab="fotos">Fotos</button>
+    <button class="ptab" data-tab="alergias">Alergias</button>
+  </div>
+  <div class="pscrl">
+    <div class="pb">
+      <div class="psec active" id="tab-dados">
+        <div class="fr"><div class="fg"><label class="fl">Nome</label><input class="fi" id="e-name" type="text"></div><div class="fg"><label class="fl">Nascimento</label><input class="fi" id="e-dob" type="date"></div></div>
+        <div class="fr"><div class="fg"><label class="fl">Telefone</label><input class="fi" id="e-phone" type="tel"></div><div class="fg"><label class="fl">Email</label><input class="fi" id="e-email" type="email"></div></div>
+        <div class="fg"><label class="fl">Tipo de Pele</label><select class="fsl" id="e-skin"><option value="">Selecionar...</option><option>Normal</option><option>Seca</option><option>Oleosa</option><option>Mista</option><option>Sensivel</option><option>Madura</option></select></div>
+        <div class="fg"><label class="fl">Observacoes</label><textarea class="fta" id="e-notes"></textarea></div>
+        <button class="btn btng" id="btn-sd">Salvar Dados</button>
+      </div>
+      <div class="psec" id="tab-tratamentos">
+        <div style="background:var(--np);border:1px solid var(--bd);border-radius:8px;padding:13px;margin-bottom:14px">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--ink);margin-bottom:11px">Nova Sessao</div>
+          <div class="fr"><div class="fg"><label class="fl">Data</label><input class="fi" id="t-date" type="date"></div><div class="fg"><label class="fl">Tratamento</label><input class="fi" id="t-type" type="text" placeholder="Ex: Peeling..."></div></div>
+          <div class="fg"><label class="fl">Anotacoes</label><textarea class="fta" id="t-notes" style="min-height:60px"></textarea></div>
+          <div class="fg"><label class="fl">Produtos</label><div class="tagsc" id="tagsc"><input type="text" id="tags-inp" placeholder="Adicionar produto..."></div></div>
+          <button class="btn btng" id="btn-treat">+ Registrar Sessao</button>
+        </div>
+        <div id="tl-cont"></div>
+      </div>
+      <div class="psec" id="tab-fotos">
+        <div style="display:flex;gap:6px;margin-bottom:11px;flex-wrap:wrap">
+          <button class="btn btno" data-pt="before" style="padding:8px 11px;font-size:10px;width:auto">+ Antes</button>
+          <button class="btn btno" data-pt="after" style="padding:8px 11px;font-size:10px;width:auto">+ Depois</button>
+          <button class="btn btno" data-pt="outros" style="padding:8px 11px;font-size:10px;width:auto">+ Outros</button>
+          <input type="file" id="ph-inp" style="display:none" accept="image/*">
+        </div>
+        <div class="pgrid" id="pgrid"></div>
+      </div>
+      <div class="psec" id="tab-alergias">
+        <div class="fg"><label class="fl">Alergias</label><div class="ir"><input class="fi" id="al-inp" type="text" placeholder="Ex: Fragrancias..."><button class="btn btng" id="btn-al" style="padding:0;width:38px;height:42px;flex-shrink:0;border-radius:7px">+</button></div><div id="al-chips" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px"></div></div>
+        <div class="div"></div>
+        <div class="fg"><label class="fl">Produtos em Uso</label><div class="ir"><input class="fi" id="hc-inp" type="text" placeholder="Ex: Vitamina C..."><button class="btn btng" id="btn-hc" style="padding:0;width:38px;height:42px;flex-shrink:0;border-radius:7px">+</button></div><div id="hc-chips" style="display:flex;flex-wrap:wrap;gap:4px;margin-top:6px"></div></div>
+        <div class="div"></div>
+        <div class="fg"><label class="fl">Notas</label><textarea class="fta" id="e-pnotes"></textarea></div>
+        <button class="btn btng" id="btn-sa">Salvar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mov" id="modal">
+  <div class="modal">
+    <div class="mh"></div>
+    <div class="mhdr"><div class="mt">Nova Cliente</div><button class="mx" id="mc">&#10005;</button></div>
+    <div class="mbody">
+      <div class="fg"><label class="fl">Nome *</label><input class="fi" id="n-name" type="text" placeholder="Nome completo"></div>
+      <div class="fr"><div class="fg"><label class="fl">Nascimento</label><input class="fi" id="n-dob" type="date"></div><div class="fg"><label class="fl">Telefone</label><input class="fi" id="n-phone" type="tel" placeholder="(00) 00000-0000"></div></div>
+      <div class="fg"><label class="fl">Email</label><input class="fi" id="n-email" type="email"></div>
+      <div class="fg"><label class="fl">Tipo de Pele</label><select class="fsl" id="n-skin"><option value="">Selecionar...</option><option>Normal</option><option>Seca</option><option>Oleosa</option><option>Mista</option><option>Sensivel</option><option>Madura</option></select></div>
+      <div class="fg"><label class="fl">Observacoes</label><textarea class="fta" id="n-notes" style="min-height:50px"></textarea></div>
+      <button class="btn btng" id="btn-cad">Cadastrar Cliente</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+var C=JSON.parse(localStorage.getItem('ks3_c')||'[]');
+var E=JSON.parse(localStorage.getItem('ks3_e')||'[]');
+var EST=JSON.parse(localStorage.getItem('ks3_est')||'[]');
+var TAR=JSON.parse(localStorage.getItem('ks3_tar')||'[]');
+var DESP=JSON.parse(localStorage.getItem('ks3_desp')||'[]');
+
+(function(){
+  var kf=[{"id": "1782430821674", "proc": "Gasolina", "valor": 500, "date": "2026-06-25", "local": "", "cliente": "", "tipo": "saida", "createdAt": "2026-06-25T23:40:21.674Z"}, {"id": "1782430794817", "proc": "Cartao", "valor": 3000, "date": "2026-06-25", "local": "Vargem Alta", "cliente": "", "tipo": "saida", "createdAt": "2026-06-25T23:39:54.817Z"}, {"id": "1782430705550", "proc": "Cilios", "valor": 150, "date": "2026-06-25", "local": "Vargem Alta", "cliente": "MARIS", "tipo": "entrada", "createdAt": "2026-06-25T23:38:25.550Z"}, {"id": "1782341272230", "proc": "Limpeza de Pele", "valor": 155, "date": "2026-06-19", "local": "Vargem Alta", "cliente": "Jamili", "tipo": "entrada", "createdAt": "2026-06-24T22:47:52.230Z"}, {"id": "1782341122281", "proc": "Cilios", "valor": 120, "date": "2026-06-23", "local": "Vargem Alta", "cliente": "Mayara", "tipo": "entrada", "createdAt": "2026-06-24T22:45:22.281Z"}, {"id": "1782341028953", "proc": "Limpeza de Pele", "valor": 160, "date": "2026-06-23", "local": "Vargem Alta", "cliente": "Luana Rosseto", "tipo": "entrada", "createdAt": "2026-06-24T22:43:48.953Z"}, {"id": "1782341008527", "proc": "Micro Labial", "valor": 480, "date": "2026-06-23", "local": "Vargem Alta", "cliente": "Arleide", "tipo": "entrada", "createdAt": "2026-06-24T22:43:28.527Z"}, {"id": "1782340961059", "proc": "Pacote de Tratamento 4 sessoes", "valor": 184, "date": "2026-06-22", "local": "Cocheiro", "cliente": "Sara Sousa", "tipo": "entrada", "createdAt": "2026-06-24T22:42:41.059Z"}, {"id": "1782340903146", "proc": "Pacote de Tratamento", "valor": 900, "date": "2026-06-22", "local": "Cocheiro", "cliente": "Sara Sousa", "tipo": "entrada", "createdAt": "2026-06-24T22:41:43.146Z"}, {"id": "1748822400001", "proc": "Limpeza de Pele", "valor": 160, "date": "2026-06-02", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-02T12:00:00.000Z"}, {"id": "1748908800001", "proc": "Peeling Facial", "valor": 245, "date": "2026-06-03", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-03T12:00:00.000Z"}, {"id": "1749081600001", "proc": "Pacote 3 Limpezas", "valor": 480, "date": "2026-06-05", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-05T12:00:00.000Z"}, {"id": "1749081600002", "proc": "Pacote 4 Limpezas", "valor": 300, "date": "2026-06-05", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-05T12:00:00.000Z"}, {"id": "1749340800001", "proc": "Micro Pele + Limpeza", "valor": 300, "date": "2026-06-08", "local": "Cocheiro", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-08T12:00:00.000Z"}, {"id": "1749427200001", "proc": "Limpeza + Micro + Quartzo", "valor": 760, "date": "2026-06-09", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-09T12:00:00.000Z"}, {"id": "1749513600001", "proc": "Micro Pele x2", "valor": 550, "date": "2026-06-10", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-10T12:00:00.000Z"}, {"id": "1749513600002", "proc": "Limpeza de Pele", "valor": 160, "date": "2026-06-10", "local": "Cocheiro", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-10T12:00:00.000Z"}, {"id": "1749600000001", "proc": "Limpeza + Peeling + Micro Oxi", "valor": 760, "date": "2026-06-11", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-11T12:00:00.000Z"}, {"id": "1749772800001", "proc": "Limpeza de Pele", "valor": 130, "date": "2026-06-13", "local": "Cocheiro", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-13T12:00:00.000Z"}, {"id": "1750118400001", "proc": "Peeling Facial", "valor": 250, "date": "2026-06-17", "local": "Cocheiro", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-17T12:00:00.000Z"}, {"id": "1750204800001", "proc": "Limpeza + Micro + Limpeza Micro", "valor": 710, "date": "2026-06-18", "local": "Vargem Alta", "cliente": "", "tipo": "entrada", "createdAt": "2026-06-18T12:00:00.000Z"}, {"id": "s001", "proc": "Aluguel", "valor": 1000, "date": "2026-06-01", "local": "", "cliente": "", "tipo": "saida", "createdAt": "2026-06-01T06:00:00.000Z"}, {"id": "s002", "proc": "Energia", "valor": 127, "date": "2026-06-01", "local": "", "cliente": "", "tipo": "saida", "createdAt": "2026-06-01T06:00:00.000Z"}, {"id": "s003", "proc": "Agua", "valor": 80, "date": "2026-06-01", "local": "", "cliente": "", "tipo": "saida", "createdAt": "2026-06-01T06:00:00.000Z"}, {"id": "s004", "proc": "Internet", "valor": 90, "date": "2026-06-01", "local": "", "cliente": "", "tipo": "saida", "createdAt": "2026-06-01T06:00:00.000Z"}];
+  kf.forEach(function(item){
+    var idx=-1;
+    for(var i=0;i<E.length;i++){if(E[i].id===item.id){idx=i;break;}}
+    if(idx>=0) E[idx]=item; else E.push(item);
+  });
+  localStorage.setItem('ks3_e',JSON.stringify(E));
+
+  var kc=[{"id": "1782255759527", "dob": "1998-12-11", "name": "Luana Rosseto", "email": "luanarosseto_@hotmail.com", "notes": "23/06/2026 limpeza de pele premium", "phone": "28999646901", "photos": [], "homecare": [], "skintype": "Oleosa", "allergies": [], "createdAt": "2026-06-23T23:02:39.527Z", "profilePic": null, "treatments": [{"id": "1782339690411", "date": "2026-06-23", "type": "Limpeza de pele", "notes": "", "products": []}], "productNotes": ""}, {"id": "1782339563861", "dob": "1993-02-26", "name": "Sara Souza", "email": "", "notes": "Iniciamos o protocolo dia 22/06/2026 fizemos um microagulhamento com PDRN.", "phone": "28992788544", "photos": [], "homecare": [], "skintype": "Mista", "allergies": [], "createdAt": "2026-06-24T22:19:23.862Z", "profilePic": null, "treatments": [{"id": "1782339655620", "date": "2026-06-22", "type": "Microagulhamento", "notes": "", "products": []}], "productNotes": ""}];
+  kc.forEach(function(item){
+    if(!C.some(function(x){return x.id===item.id;})) C.push(item);
+  });
+  localStorage.setItem('ks3_c',JSON.stringify(C));
+
+  var fichasNovas=[{"id":"f001","name":"Barbara Barbosa Felippe","dob":"","phone":"","email":"","skintype":"Sensivel","notes":"Queixa: pele sensivel, acne inflamada, manchas de acne. Usa anticoncepcional: Nocilin. Ultima menstruacao: 07/04. Alimentacao pessima. Sono regular 6h. Bebe socialmente.","allergies":[],"homecare":["Sabonete","Hidratante","Protetor Solar BS"],"productNotes":"Uso de cosmeticos: Sabonete Barberan, hidratante, protetor BS. Iniciou Meillon Off em 11/05.","treatments":[{"id":"f001t1","date":"2026-04-11","type":"Peeling + Microagulhamento + LHA Peel","notes":"Primeira sessao: Peeling, mentauro, LHA Peel","products":[]},{"id":"f001t2","date":"2026-05-11","type":"LHA Peel","notes":"Comecou a usar Meillon Off","products":["Meillon Off"]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:00.000Z"},{"id":"f002","name":"Hulo Damasena Beleza","dob":"","phone":"","email":"","skintype":"","notes":"Atividade fisica: musculacao 4x por semana. Usa anticoncepcional: Celio 21. 2 gestacoes ha 3 anos. Sono regular 9h. 2 litros de agua.","allergies":[],"homecare":[],"productNotes":"","treatments":[{"id":"f002t1","date":"2026-03-31","type":"LHA","notes":"R$ 400,00","products":[]},{"id":"f002t2","date":"2026-04-20","type":"Microagulhamento","notes":"R$ 200,00","products":[]},{"id":"f002t3","date":"2026-05-15","type":"LHA Peel","notes":"R$ 300,00","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:01.000Z"},{"id":"f003","name":"Thais Brandao","dob":"","phone":"","email":"","skintype":"","notes":"34 anos. Cidade: Vargem Alta. Queixa: linhas finas, melasma. Sem tratamento estetico anterior. Usa cosmeticos: Bealy. Usa filtro solar. Bebe alcool.","allergies":[],"homecare":["Bealy"],"productNotes":"Cosmeticos: Bealy","treatments":[{"id":"f003t1","date":"2026-05-16","type":"Microagulhamento","notes":"","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:02.000Z"},{"id":"f004","name":"Skarlety Pedangi","dob":"","phone":"","email":"","skintype":"","notes":"29 anos. Queixa: qualidade da pele, perda de vico, poros dilatados, pele desidratada, poros dilatados. Tratamento anterior: botox e acido. Nao usa cosmeticos. Bebe moderadamente.","allergies":[],"homecare":[],"productNotes":"Tratamento anterior: botox e acido","treatments":[{"id":"f004t1","date":"2026-05-12","type":"LHA Peel","notes":"","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:03.000Z"},{"id":"f005","name":"Poliana Promissoro Cansi","dob":"","phone":"","email":"","skintype":"","notes":"34 anos. Tratamento anterior: Botox. Usa cosmeticos. Exposta ao sol. Tabagista. Bebe alcool. Nota: pago R$ 150,00.","allergies":[],"homecare":[],"productNotes":"Tratamento anterior: Botox","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:04.000Z"},{"id":"f006","name":"Andriele Marques","dob":"","phone":"","email":"","skintype":"","notes":"37 anos. Bairro: Centro. Cidade: Vargem Alta. Profissao: Empresaria. Queixa: melasma, flacidez, linhas finas. Sem tratamento anterior. Usa protetor solar. Bebe moderadamente.","allergies":[],"homecare":["Protetor Solar"],"productNotes":"Usa protetor solar","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:05.000Z"},{"id":"f007","name":"Camila Pigati","dob":"","phone":"","email":"","skintype":"","notes":"Cidade: Cocheiro. Queixa: marcas de acne, melasma, dermite e qualidade da pele. Tratamento anterior: botox, preenchedor. Exposta ao sol. Usa filtro solar. Bebe.","allergies":[],"homecare":[],"productNotes":"Tratamento anterior: botox, preenchedor","treatments":[{"id":"f007t1","date":"2026-03-27","type":"Microagulhamento PDRN + EXO","notes":"","products":["PDRN","EXO"]},{"id":"f007t2","date":"2026-04-15","type":"LHA","notes":"","products":[]},{"id":"f007t3","date":"2026-05-13","type":"LHA Peel","notes":"","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:06.000Z"},{"id":"f008","name":"Sabrina Amopozo","dob":"","phone":"","email":"","skintype":"Oleosa","notes":"46 anos. Bairro: Boa Esperanca. Queixa: poros dilatados, pontos de melasma, qualidade da pele/vico/luminosidade, controle de oleosidade. Sem tratamento anterior. Cosmeticos: sabonete, Hidrante. Bebe socialmente.","allergies":[],"homecare":["Sabonete","Hidrante Midroante"],"productNotes":"Cosmeticos: sabonete principio, Hidrante","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:07.000Z"},{"id":"f009","name":"Rafaela Souza Tigre","dob":"","phone":"","email":"","skintype":"","notes":"36 anos. Queixa: melasma, linhas finas, flacidez. Sem tratamento anterior. Bebe socialmente.","allergies":[],"homecare":[],"productNotes":"","treatments":[{"id":"f009t1","date":"2026-05-28","type":"Microagulhamento com PDRN + Acido Hialuronico","notes":"Associado ao acido hialuronico. Medidas produtos para home care e sabado ate por prescricao. R$ 1200,00","products":["PDRN","Acido Hialuronico"]},{"id":"f009t2","date":"2026-05-13","type":"Microagulhamento","notes":"R$ 250,00","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:08.000Z"},{"id":"f010","name":"Indara Ansi Tasarole","dob":"","phone":"","email":"","skintype":"","notes":"Atividade fisica: musculacao 5x por semana. Sem anticoncepcional. 1 gestacao ha 13 anos. Sono bom 8h. 1 litro de agua.","allergies":[],"homecare":[],"productNotes":"","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:09.000Z"},{"id":"f011","name":"Hilo Damiliano Sofiste","dob":"","phone":"","email":"","skintype":"","notes":"28 anos. Cidade: Vargem Alta. Queixa: olheiras (profundas), diminuir pele opaca. Sem tratamento anterior. Nao usa cosmeticos. Bebe socialmente.","allergies":[],"homecare":[],"productNotes":"","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:10.000Z"},{"id":"f012","name":"Valdilene Vaz","dob":"","phone":"","email":"","skintype":"","notes":"46 anos. Queixa: melasma, linhas finas. Sem tratamento anterior. Usa protetor solar. Bebe.","allergies":[],"homecare":["Protetor Solar"],"productNotes":"Usa protetor solar","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:11.000Z"},{"id":"f013","name":"Eduardo Zanoti Costa","dob":"","phone":"","email":"","skintype":"","notes":"Alimentacao boa. Atividade fisica: natacao, corrida, pedal 3x por semana. Comida normal. Sono pessimo 7h. 3 litros de agua.","allergies":[],"homecare":["Meillon Off"],"productNotes":"Iniciou Meillon Off Home Care em 10/05","treatments":[{"id":"f013t1","date":"2026-03-23","type":"LHA Peel","notes":"","products":[]},{"id":"f013t2","date":"2026-04-10","type":"Microagulhamento","notes":"","products":[]},{"id":"f013t3","date":"2026-05-10","type":"Peeling","notes":"Comecou a usar Meillon Off Home Care","products":["Meillon Off"]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:00:12.000Z"},{"id":"g001","name":"Jessica Demartine","dob":"","phone":"","email":"","skintype":"","notes":"34 anos. Cidade: Vargem Alta. Queixa: olheiras, nutricao, linhas finas. Sem tratamento estetico anterior. Nao usa cosmeticos. Nao bebe alcool.","allergies":[],"homecare":[],"productNotes":"","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:00.000Z"},{"id":"g002","name":"Kily Sandra Jardim","dob":"","phone":"","email":"","skintype":"","notes":"44 anos. Cidade: Vargem Alta. Queixa: linhas finas, flacidez, melasma dinamico. Sem tratamento anterior. Cosmeticos: hidratante, protetor solar. 1 gestacao ha 20 anos. Anticoncepcional: Cerezete (endometriose).","allergies":[],"homecare":["Hidratante","Protetor Solar"],"productNotes":"Usa hidratante e protetor solar","treatments":[{"id":"g002t1","date":"2026-04-09","type":"Microagulhamento PDRN + EXO + Acido Hialuronico","notes":"Acido Hialuronico associado","products":["PDRN","EXO","Acido Hialuronico"]},{"id":"g002t2","date":"2026-05-04","type":"LHA Peel","notes":"Acido Retinol Vite Nasob","products":["Acido Retinol","Vite Nasob"]},{"id":"g002t3","date":"2026-06-05","type":"Sessao","notes":"","products":[]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:01.000Z"},{"id":"g003","name":"Eduardo Zanoti","dob":"1981-02-17","phone":"","email":"","skintype":"","notes":"45 anos. Cidade: Vila Velha. Profissao: TI. Queixa: melasma, linhas finas, flacidez. Sem tratamento estetico anterior. Nao usa cosmeticos. Exposto ao sol. Usa filtro solar. Bebe socialmente.","allergies":[],"homecare":[],"productNotes":"","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:02.000Z"},{"id":"g004","name":"Elaine Regina Silva","dob":"","phone":"","email":"","skintype":"Madura","notes":"52 anos. Tratamento estetico anterior: Botox. Nao usa lentes. Usa cosmeticos. Usa filtro solar. Nao fuma. Nao bebe alcool.","allergies":[],"homecare":[],"productNotes":"Tratamento anterior: Botox","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:03.000Z"},{"id":"g005","name":"Robson Paulo da Silva","dob":"","phone":"","email":"","skintype":"","notes":"36 anos. Profissao: Pedreiro. Queixa: poros dilatados, qualidade da pele, pele opaca/desidratada. Sem tratamento estetico anterior. Usa lentes de contato. Nao usa cosmeticos. Exposto ao sol. Sem filtro solar. Nao fuma. Nao bebe.","allergies":[],"homecare":[],"productNotes":"","treatments":[],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:04.000Z"},{"id":"g006","name":"Fabriciana Milanodi","dob":"","phone":"","email":"","skintype":"","notes":"Gestante. 2 gestacoes ha 7 anos. Sono regular 6h. 6 copos de agua. Nao pratica atividade fisica. Sem anticoncepcional. R$ 300,00.","allergies":[],"homecare":[],"productNotes":"","treatments":[{"id":"g006t1","date":"2026-05-14","type":"LHA Peel","notes":"","products":[]},{"id":"g006t2","date":"2026-06-09","type":"Microagulhamento EXO","notes":"Microagulhamento EXO GMIK-CU","products":["EXO","GMIK-CU"]}],"photos":[],"profilePic":null,"createdAt":"2026-01-01T00:01:05.000Z"}];
+  fichasNovas.forEach(function(item){
+    if(!C.some(function(x){return x.id===item.id;})) C.push(item);
+  });
+  localStorage.setItem('ks3_c',JSON.stringify(C));
+
+  var ke=[{"id": "1782194199070", "qtd": "5", "fone": "3464678598359", "foto": "https://res.cloudinary.com/ddzptvfq3/image/upload/v1782194198/estudio-ketyla/estoque/gefekiwbnzektu4y5rvv.png", "nome": "Acido", "valor": "2.99", "createdAt": "2026-06-23T05:56:39.070Z", "fornecedor": "Jdidmd"}];
+  ke.forEach(function(item){
+    if(!EST.some(function(x){return x.id===item.id;})) EST.push(item);
+  });
+  localStorage.setItem('ks3_est',JSON.stringify(EST));
+
+  if(!DESP.length){DESP=[{"id": "d001", "nome": "Aluguel", "valor": 1000, "createdAt": "2026-06-01T00:00:00.000Z"}, {"id": "d002", "nome": "Energia", "valor": 127, "createdAt": "2026-06-01T00:00:00.000Z"}, {"id": "d003", "nome": "Agua", "valor": 80, "createdAt": "2026-06-01T00:00:00.000Z"}, {"id": "d004", "nome": "Internet", "valor": 90, "createdAt": "2026-06-01T00:00:00.000Z"}];localStorage.setItem('ks3_desp',JSON.stringify(DESP));}
+})();
+
+function sc2(){localStorage.setItem('ks3_c',JSON.stringify(C));}
+function se(){localStorage.setItem('ks3_e',JSON.stringify(E));}
+function sest(){localStorage.setItem('ks3_est',JSON.stringify(EST));}
+function star(){localStorage.setItem('ks3_tar',JSON.stringify(TAR));}
+function sdesp(){localStorage.setItem('ks3_desp',JSON.stringify(DESP));}
+
+var cid=null,cpt='before',ttags=[],estpd=null,qpid=null;
+var caly=new Date().getFullYear(),calm=new Date().getMonth(),seldt=new Date().toISOString().split('T')[0];
+var fcaly=new Date().getFullYear(),fcalm=new Date().getMonth(),fcsel=null;
+
+function ini(n){return(n||'').split(' ').filter(Boolean).slice(0,2).map(function(w){return w[0].toUpperCase();}).join('');}
+function fd(d){if(!d)return'--';var p=d.split('-');return p[2]+'/'+p[1]+'/'+p[0];}
+function fm(v){return'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function fms(v){var n=Number(v);if(n>=1000000)return'R$'+(n/1000000).toFixed(1)+'M';if(n>=1000)return'R$'+(n/1000).toFixed(1)+'k';return'R$'+n.toFixed(0);}
+function tst(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2500);}
+function isWk(ds){var now=new Date();var dd=now.getDay();var mon=new Date(now);mon.setDate(now.getDate()-((dd+6)%7));mon.setHours(0,0,0,0);var sun=new Date(mon);sun.setDate(mon.getDate()+6);sun.setHours(23,59,59,999);var d=new Date(ds+'T12:00:00');return d>=mon&&d<=sun;}
+function isMo(ds){var now=new Date();var d=new Date(ds+'T12:00:00');return d.getMonth()===now.getMonth()&&d.getFullYear()===now.getFullYear();}
+
+function sw(s){
+  document.querySelectorAll('.sc').forEach(function(x){x.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(x){x.classList.remove('active');});
+  var el=document.getElementById('sc-'+s);if(el)el.classList.add('active');
+  var nb=document.querySelector('.nb[data-s="'+s+'"]');if(nb)nb.classList.add('active');
+  document.querySelector('.body').scrollTop=0;
+  if(s==='clientes')rCli();
+  if(s==='financeiro')rFin();
+  if(s==='dashboard')rDash();
+  if(s==='tarefas')rCal();
+  if(s==='estoque')rEst();
+}
+
+function rCli(){
+  var q=(document.getElementById('search-inp').value||'').toLowerCase();
+  var f=C.filter(function(c){return(c.name||'').toLowerCase().indexOf(q)>=0;});
+  var el=document.getElementById('cli-list');
+  if(!f.length){el.innerHTML='<div class="empty"><div class="ei2">&#9675;</div><div class="et">Nenhuma cliente ainda.<br><br><button class="btn btng" id="btn1st" style="width:auto;padding:10px 20px">+ Cadastrar</button></div></div>';var b=document.getElementById('btn1st');if(b)b.onclick=openM;return;}
+  el.innerHTML=f.map(function(c){
+    var lt=c.treatments&&c.treatments.length?c.treatments[c.treatments.length-1]:null;
+    var av=c.profilePic?'<img src="'+c.profilePic+'" alt="">':ini(c.name);
+    return '<div class="cc" data-id="'+c.id+'"><div class="cav">'+av+'<div class="ced" data-qid="'+c.id+'">&#9998;</div></div><div class="ci"><div class="cn">'+c.name+'</div><div class="cs">'+(c.skintype||'Pele nao informada')+'</div><div class="cst"><div class="cstat"><strong>'+(c.treatments||[]).length+'</strong> sessoes</div><div class="cstat">Ult: <strong>'+(lt?fd(lt.date).slice(0,5):'--')+'</strong></div></div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><span class="badge '+(c.treatments&&c.treatments.length?'ba':'bn')+'">'+(c.treatments&&c.treatments.length?'Ativa':'Nova')+'</span><button class="edel delc" data-id="'+c.id+'">&#10005;</button></div></div>';
+  }).join('');
+  el.querySelectorAll('.cc').forEach(function(card){card.onclick=function(ev){if(ev.target.classList.contains('delc')||ev.target.classList.contains('ced'))return;openP(card.dataset.id);};});
+  el.querySelectorAll('.delc').forEach(function(b){b.onclick=function(ev){ev.stopPropagation();delC(b.dataset.id);};});
+  el.querySelectorAll('.ced').forEach(function(b){b.onclick=function(ev){ev.stopPropagation();qpid=b.dataset.qid;document.getElementById('qp-inp').click();};});
+}
+function delC(id){var c=C.find(function(x){return x.id===id;});if(!c)return;if(!confirm('Excluir '+c.name+'?'))return;C=C.filter(function(x){return x.id!==id;});sc2();rCli();tst('Cliente removida');}
+
+function openM(){document.getElementById('modal').classList.add('open');}
+function closeM(){document.getElementById('modal').classList.remove('open');}
+function createC(){
+  var name=document.getElementById('n-name').value.trim();if(!name){alert('Insira o nome.');return;}
+  var c={id:Date.now().toString(),name:name,dob:document.getElementById('n-dob').value||'',phone:document.getElementById('n-phone').value||'',email:document.getElementById('n-email').value||'',skintype:document.getElementById('n-skin').value||'',notes:document.getElementById('n-notes').value||'',allergies:[],homecare:[],productNotes:'',treatments:[],photos:[],profilePic:null,createdAt:new Date().toISOString()};
+  C.unshift(c);sc2();closeM();
+  ['n-name','n-dob','n-phone','n-email','n-notes'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('n-skin').value='';
+  rCli();tst('Cliente '+name+' cadastrada!');openP(c.id);
+}
+
+function openP(id){
+  cid=id;var c=C.find(function(x){return x.id===id;});if(!c)return;
+  var pa=document.getElementById('pav');pa.innerHTML=c.profilePic?'<img src="'+c.profilePic+'" alt="">':ini(c.name);
+  document.getElementById('pname').textContent=c.name;
+  document.getElementById('psub').textContent=(c.skintype||'Pele nao informada')+' . desde '+fd((c.createdAt||'').split('T')[0]);
+  document.getElementById('e-name').value=c.name;document.getElementById('e-dob').value=c.dob||'';
+  document.getElementById('e-phone').value=c.phone||'';document.getElementById('e-email').value=c.email||'';
+  document.getElementById('e-skin').value=c.skintype||'';document.getElementById('e-notes').value=c.notes||'';
+  document.getElementById('e-pnotes').value=c.productNotes||'';
+  rAlC();rHcC();rTL();rPh();
+  document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');});
+  document.querySelectorAll('.psec').forEach(function(s){s.classList.remove('active');});
+  document.querySelector('.ptab[data-tab="dados"]').classList.add('active');
+  document.getElementById('tab-dados').classList.add('active');
+  document.getElementById('cpanel').classList.add('open');
+  document.getElementById('cpanel').querySelector('.pscrl').scrollTop=0;
+}
+function closeP(){document.getElementById('cpanel').classList.remove('open');cid=null;rCli();}
+function saveD(){
+  var c=C.find(function(x){return x.id===cid;});if(!c)return;
+  c.name=document.getElementById('e-name').value;c.dob=document.getElementById('e-dob').value;
+  c.phone=document.getElementById('e-phone').value;c.email=document.getElementById('e-email').value;
+  c.skintype=document.getElementById('e-skin').value;c.notes=document.getElementById('e-notes').value;
+  sc2();document.getElementById('pname').textContent=c.name;tst('Dados salvos!');setTimeout(function(){closeP();},500);
+}
+
+document.getElementById('p-ph').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;var c=C.find(function(x){return x.id===cid;});if(!c)return;
+  var r=new FileReader();r.onload=function(ev){c.profilePic=ev.target.result;sc2();document.getElementById('pav').innerHTML='<img src="'+c.profilePic+'" alt="">';rCli();tst('Foto atualizada!');upCl(ev.target.result,'perfis').then(function(u){if(u){c.profilePic=u;sc2();document.getElementById('pav').innerHTML='<img src="'+u+'" alt="">';rCli();}});};r.readAsDataURL(f);e.target.value='';
+};
+document.getElementById('qp-inp').onchange=function(e){
+  var f=e.target.files[0];if(!f||!qpid)return;var c=C.find(function(x){return x.id===qpid;});if(!c)return;
+  var r=new FileReader();r.onload=function(ev){c.profilePic=ev.target.result;sc2();rCli();tst('Foto atualizada!');upCl(ev.target.result,'perfis').then(function(u){if(u){c.profilePic=u;sc2();rCli();}});};r.readAsDataURL(f);e.target.value='';
+};
+
+document.getElementById('tagsc').onclick=function(){document.getElementById('tags-inp').focus();};
+document.getElementById('tags-inp').onkeydown=function(e){if(e.key!=='Enter'&&e.key!==',')return;e.preventDefault();var v=this.value.trim();if(!v)return;ttags.push(v);this.value='';rTags();};
+function rTags(){var c2=document.getElementById('tagsc');var inp=document.getElementById('tags-inp');c2.innerHTML='';ttags.forEach(function(t,i){var s=document.createElement('span');s.className='tagi';s.innerHTML=t+' <span class="cr" data-i="'+i+'">&#10005;</span>';c2.appendChild(s);});c2.appendChild(inp);c2.querySelectorAll('.cr').forEach(function(b){b.onclick=function(){ttags.splice(parseInt(b.dataset.i),1);rTags();};});}
+function addTreat(){
+  var c=C.find(function(x){return x.id===cid;});if(!c)return;
+  var dt=document.getElementById('t-date').value;var tp=document.getElementById('t-type').value.trim();
+  if(!dt||!tp){alert('Preencha data e tipo.');return;}
+  if(!c.treatments)c.treatments=[];
+  c.treatments.push({id:Date.now().toString(),date:dt,type:tp,notes:document.getElementById('t-notes').value,products:ttags.slice()});
+  sc2();document.getElementById('t-date').value='';document.getElementById('t-type').value='';document.getElementById('t-notes').value='';
+  ttags=[];rTags();rTL();tst('Sessao registrada!');
+}
+function rTL(){
+  var c=C.find(function(x){return x.id===cid;});var el=document.getElementById('tl-cont');
+  if(!c||!c.treatments||!c.treatments.length){el.innerHTML='<div class="empty" style="padding:18px 0"><div class="ei2" style="font-size:22px">&#10022;</div><div class="et">Nenhuma sessao</div></div>';return;}
+  var ic=['&#9672;','&#10022;','&#9671;','&#9675;','&#10023;','&#9670;'];
+  el.innerHTML=c.treatments.slice().reverse().map(function(t,i){return '<div class="tli"><div class="tld">'+ic[i%6]+'</div><div class="tlc"><div class="tldt">'+fd(t.date)+'</div><div class="tltt">'+t.type+'</div>'+(t.notes?'<div class="tlno">'+t.notes+'</div>':'')+(t.products&&t.products.length?'<div class="tlpr">'+t.products.map(function(p){return'<span class="ptag">'+p+'</span>';}).join('')+'</div>':'')+'</div></div>';}).join('');
+}
+
+document.querySelectorAll('.btn[data-pt]').forEach(function(btn){btn.onclick=function(){cpt=btn.dataset.pt;document.getElementById('ph-inp').click();};});
+document.getElementById('ph-inp').onchange=function(e){
+  var f=e.target.files[0];if(!f)return;var c=C.find(function(x){return x.id===cid;});if(!c)return;if(!c.photos)c.photos=[];
+  var r=new FileReader();r.onload=function(ev){var lb={before:'Antes',after:'Depois',outros:'Outros'};var ph={id:Date.now().toString(),src:ev.target.result,label:lb[cpt],date:new Date().toISOString().split('T')[0]};c.photos.push(ph);sc2();rPh();tst('Foto adicionada!');upCl(ev.target.result,'fotos').then(function(u){if(u){ph.src=u;sc2();rPh();}});};r.readAsDataURL(f);e.target.value='';
+};
+function rPh(){
+  var c=C.find(function(x){return x.id===cid;});var el=document.getElementById('pgrid');
+  if(!c||!c.photos||!c.photos.length){el.innerHTML='<div class="empty" style="grid-column:1/-1;padding:18px 0"><div class="ei2" style="font-size:22px">&#9672;</div><div class="et">Nenhuma foto</div></div>';return;}
+  el.innerHTML=c.photos.map(function(p){return'<div class="pitem"><img src="'+p.src+'" alt="'+p.label+'"><div class="plbl">'+p.label+' . '+fd(p.date)+'</div><button class="prm" data-pid="'+p.id+'">&#10005;</button></div>';}).join('');
+  el.querySelectorAll('.prm').forEach(function(b){b.onclick=function(){var c2=C.find(function(x){return x.id===cid;});if(!c2)return;c2.photos=c2.photos.filter(function(p){return p.id!==b.dataset.pid;});sc2();rPh();};});
+}
+
+function addAl(){var c=C.find(function(x){return x.id===cid;});var v=document.getElementById('al-inp').value.trim();if(!c||!v)return;if(!c.allergies)c.allergies=[];if(c.allergies.indexOf(v)<0)c.allergies.push(v);document.getElementById('al-inp').value='';sc2();rAlC();}
+function rAlC(){var c=C.find(function(x){return x.id===cid;});var el=document.getElementById('al-chips');if(!c||!c.allergies||!c.allergies.length){el.innerHTML='<span style="font-size:10px;color:var(--nm)">Nenhuma alergia</span>';return;}el.innerHTML=c.allergies.map(function(a){return'<span class="chip chipa">'+a+' <span class="cr" data-v="'+a+'">&#10005;</span></span>';}).join('');el.querySelectorAll('.cr').forEach(function(b){b.onclick=function(){var c2=C.find(function(x){return x.id===cid;});if(!c2)return;c2.allergies=c2.allergies.filter(function(a){return a!==b.dataset.v;});sc2();rAlC();};});}
+function addHc(){var c=C.find(function(x){return x.id===cid;});var v=document.getElementById('hc-inp').value.trim();if(!c||!v)return;if(!c.homecare)c.homecare=[];if(c.homecare.indexOf(v)<0)c.homecare.push(v);document.getElementById('hc-inp').value='';sc2();rHcC();}
+function rHcC(){var c=C.find(function(x){return x.id===cid;});var el=document.getElementById('hc-chips');if(!c||!c.homecare||!c.homecare.length){el.innerHTML='<span style="font-size:10px;color:var(--nm)">Nenhum produto</span>';return;}el.innerHTML=c.homecare.map(function(p){return'<span class="chip">'+p+' <span class="cr" data-v="'+p+'">&#10005;</span></span>';}).join('');el.querySelectorAll('.cr').forEach(function(b){b.onclick=function(){var c2=C.find(function(x){return x.id===cid;});if(!c2)return;c2.homecare=c2.homecare.filter(function(p){return p!==b.dataset.v;});sc2();rHcC();};});}
+function saveA(){var c=C.find(function(x){return x.id===cid;});if(!c)return;c.productNotes=document.getElementById('e-pnotes').value;sc2();tst('Dados salvos!');}
+
+var PROCS=['Limpeza de Pele','Pacote 2 Limpezas','Pacote 3 Limpezas','Pacote 4 Limpezas','Micro Labial','Micro Pele','Peeling Facial','Quartzo','Micro Oxi','Cilios','Curso de Cilios','Curso de Design de Sobrancelha','Curso de Limpeza de Pele','Curso de Micropigmentacao','Aluguel','Energia','Agua','Internet','Gasolina','Insumos','Materiais'];
+var LOCAIS=['Vargem Alta','Cocheiro','Vitoria'];
+
+function sug(inpId,boxId,items){
+  var inp=document.getElementById(inpId);var box=document.getElementById(boxId);if(!inp||!box)return;
+  function show(){var q=inp.value.toLowerCase();var f=items.filter(function(i){return i.toLowerCase().indexOf(q)>=0;});if(!f.length){box.style.display='none';return;}box.innerHTML=f.map(function(i){return'<div class="si" data-v="'+i+'">'+i+'</div>';}).join('');box.style.display='block';box.querySelectorAll('.si').forEach(function(s){s.onmousedown=function(e){e.preventDefault();inp.value=s.dataset.v;box.style.display='none';};s.ontouchend=function(e){e.preventDefault();inp.value=s.dataset.v;box.style.display='none';};});}
+  inp.onfocus=show;inp.oninput=show;inp.onblur=function(){setTimeout(function(){box.style.display='none';},200);};
+}
+
+function rFin(){
+  var di=document.getElementById('fin-date');if(di&&!di.value)di.value=new Date().toISOString().split('T')[0];
+  var ents=E.filter(function(e){return isMo(e.date)&&e.tipo!=='saida';});
+  var sais=E.filter(function(e){return isMo(e.date)&&e.tipo==='saida';});
+  var totE=ents.reduce(function(s,e){return s+Number(e.valor);},0);
+  var totS=sais.reduce(function(s,e){return s+Number(e.valor);},0);
+  var totAll=E.filter(function(e){return e.tipo!=='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+  var saldo=totE-totS;
+  document.getElementById('fme').textContent=fm(totE);
+  document.getElementById('fms').textContent=fm(totS);
+  var sl=document.getElementById('fsl');sl.textContent=fm(saldo);sl.style.color=saldo>=0?'var(--gl)':'#e07070';
+  document.getElementById('ftg').textContent=fms(totAll);
+  rFCal();rEntL();rDesp();
+}
+
+function addEnt(){
+  var proc=document.getElementById('fin-proc').value.trim();
+  var val=parseFloat(document.getElementById('fin-val').value);
+  var date=document.getElementById('fin-date').value;
+  var loc=document.getElementById('fin-loc').value.trim();
+  var cli=document.getElementById('fin-cli').value.trim();
+  var tipo=document.getElementById('fin-tipo').value;
+  if(!proc){tst('Informe a descricao');return;}
+  if(!val||val<=0){tst('Informe um valor valido');return;}
+  if(!date){tst('Informe a data');return;}
+  var ne={id:Date.now().toString(),proc:proc,valor:val,date:date,local:loc,cliente:cli,tipo:tipo,createdAt:new Date().toISOString()};
+  E.unshift(ne);se();
+  document.getElementById('fin-proc').value='';document.getElementById('fin-val').value='';
+  document.getElementById('fin-cli').value='';document.getElementById('fin-loc').value='';
+  rFin();tst(tipo==='saida'?'Saida registrada!':'Entrada registrada!');
+}
+function delEnt(id){E=E.filter(function(e){return e.id!==id;});se();rFin();tst('Removido');}
+
+function rEntL(){
+  var el=document.getElementById('ent-list');
+  var s=E.slice().sort(function(a,b){return new Date(b.date)-new Date(a.date);}).slice(0,30);
+  if(!s.length){el.innerHTML='<div class="empty" style="padding:20px 0"><div class="ei2" style="font-size:22px">&#9672;</div><div class="et">Nenhum registro</div></div>';return;}
+  el.innerHTML=s.map(function(e){
+    var iS=e.tipo==='saida';
+    return '<div class="ei"><div class="eic '+(iS?'eics':'eice')+'">'+(iS?'&#8595;':'&#10022;')+'</div>'
+      +'<div class="einf"><div class="eina">'+e.proc+'</div>'
+      +'<div class="eime">'+fd(e.date)+(e.cliente?' . '+e.cliente:'')+(e.local?' . '+e.local:'')+'</div>'
+      +(iS?'<span class="ttag">SAIDA</span>':'')+'</div>'
+      +'<div style="display:flex;align-items:center;gap:6px">'
+      +'<div class="eiva '+(iS?'eivs':'eive')+'">'+(iS?'-':'')+fm(e.valor)+'</div>'
+      +'<button class="edel edl" data-id="'+e.id+'">&#10005;</button></div></div>';
+  }).join('');
+  el.querySelectorAll('.edl').forEach(function(b){b.onclick=function(){delEnt(b.dataset.id);};});
+}
+
+function rFCal(){
+  var mns=['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var te=document.getElementById('fct');if(!te)return;te.textContent=mns[fcalm]+' '+fcaly;
+  var td=new Date().toISOString().split('T')[0];
+  var fd2=new Date(fcaly,fcalm,1).getDay();var dim=new Date(fcaly,fcalm+1,0).getDate();var dip=new Date(fcaly,fcalm,0).getDate();
+  var h='';for(var i=fd2-1;i>=0;i--)h+='<div class="cd om"><div class="cdn">'+(dip-i)+'</div></div>';
+  for(var d=1;d<=dim;d++){
+    var ds=fcaly+'-'+String(fcalm+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    var de=E.filter(function(e){return e.date===ds;});
+    var te2=de.filter(function(e){return e.tipo!=='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+    var ts=de.filter(function(e){return e.tipo==='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+    var it=ds===td;var isSel=ds===fcsel;
+    var vh='';
+    if(te2>0)vh+='<div class="cdv e">'+(te2>=1000?'R$'+(te2/1000).toFixed(1)+'k':'R$'+te2)+'</div>';
+    if(ts>0)vh+='<div class="cdv s">-'+(ts>=1000?'R$'+(ts/1000).toFixed(1)+'k':'R$'+ts)+'</div>';
+    h+='<div class="cd'+(it?' today':'')+(isSel?' sel':'')+'" data-ds="'+ds+'"><div class="cdn">'+d+'</div>'+vh+'</div>';
+  }
+  var tot2=fd2+dim;var rem=tot2%7===0?0:7-(tot2%7);for(var d2=1;d2<=rem;d2++)h+='<div class="cd om"><div class="cdn">'+d2+'</div></div>';
+  var g=document.getElementById('fc-grid');g.innerHTML=h;
+  g.querySelectorAll('.cd:not(.om)').forEach(function(cell){cell.onclick=function(){fcsel=fcsel===cell.dataset.ds?null:cell.dataset.ds;rFCal();rFDet();};});
+  rFDet();
+}
+function rFDet(){
+  var el=document.getElementById('fc-det');if(!el)return;
+  if(!fcsel){el.style.display='none';return;}
+  var de=E.filter(function(e){return e.date===fcsel;});if(!de.length){el.style.display='none';return;}
+  var tE=de.filter(function(e){return e.tipo!=='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+  var tS=de.filter(function(e){return e.tipo==='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+  var p=fcsel.split('-');
+  el.style.display='block';
+  el.innerHTML='<div style="font-size:9px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--nu);margin-bottom:8px">'+p[2]+'/'+p[1]+'/'+p[0]+'</div>'
+    +de.map(function(e){var iS=e.tipo==='saida';return'<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid var(--bd)"><div><div style="font-size:12px;color:var(--ink)">'+(iS?'<span style="font-size:8px;padding:1px 4px;border-radius:3px;background:rgba(192,57,43,.09);color:#c0392b;margin-right:3px">SAIDA</span>':'')+e.proc+'</div>'+(e.local?'<div style="font-size:10px;color:var(--nm)">'+e.local+'</div>':'')+'</div><div style="font-family:Cormorant Garamond,serif;font-size:17px;color:'+(iS?'#e07070':'var(--gr)')+'">'+(iS?'-':'')+fm(e.valor)+'</div></div>';}).join('')
+    +(tE>0||tS>0?'<div style="display:flex;gap:8px;margin-top:7px;padding-top:7px">'+(tE>0?'<div style="flex:1;text-align:center"><div style="font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:var(--gr)">Entradas</div><div style="font-family:Cormorant Garamond,serif;font-size:18px;color:var(--gr)">'+fm(tE)+'</div></div>':'')+(tS>0?'<div style="flex:1;text-align:center"><div style="font-size:8px;text-transform:uppercase;letter-spacing:.1em;color:#e07070">Saidas</div><div style="font-family:Cormorant Garamond,serif;font-size:18px;color:#e07070">'+fm(tS)+'</div></div>':'')+'</div>':'');
+}
+
+function rDesp(){
+  var el=document.getElementById('desp-list');if(!el)return;
+  var tot=DESP.reduce(function(s,d){return s+Number(d.valor);},0);
+  document.getElementById('desp-tot').textContent=fm(tot);
+  if(!DESP.length){el.innerHTML='<div style="font-size:11px;color:rgba(201,169,110,.35);text-align:center;padding:7px 0">Nenhuma despesa fixa</div>';return;}
+  el.innerHTML=DESP.map(function(d){return'<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 0;border-bottom:1px solid rgba(201,169,110,.09)"><div style="font-size:12px;color:var(--gl)">'+d.nome+'</div><div style="display:flex;align-items:center;gap:6px"><div style="font-family:Cormorant Garamond,serif;font-size:16px;color:#e07070">'+fm(d.valor)+'</div><button class="edel ddl" data-id="'+d.id+'" style="color:rgba(201,169,110,.35)">&#10005;</button></div></div>';}).join('');
+  el.querySelectorAll('.ddl').forEach(function(b){b.onclick=function(){var did=b.dataset.id;DESP=DESP.filter(function(d){return d.id!==did;});sdesp();rDesp();tst('Despesa removida');};});
+}
+function addDesp(){
+  var nome=document.getElementById('desp-nome').value.trim();var val=parseFloat(document.getElementById('desp-val').value);
+  if(!nome){tst('Informe o nome');return;}if(!val||val<=0){tst('Informe o valor');return;}
+  var nd={id:Date.now().toString(),nome:nome,valor:val,createdAt:new Date().toISOString()};
+  DESP.push(nd);sdesp();document.getElementById('desp-nome').value='';document.getElementById('desp-val').value='';
+  rDesp();tst('Despesa adicionada!');
+}
+
+function rDash(){
+  document.getElementById('d-cli').textContent=C.length;
+  document.getElementById('d-treat').textContent=C.reduce(function(a,c){return a+(c.treatments||[]).length;},0);
+  var wk=E.filter(function(e){return isWk(e.date)&&e.tipo!=='saida';}).reduce(function(s,e){return s+Number(e.valor);},0);
+  var moE=E.filter(function(e){return isMo(e.date)&&e.tipo!=='saida';});var mo=moE.reduce(function(s,e){return s+Number(e.valor);},0);
+  document.getElementById('d-wk').textContent=fms(wk);document.getElementById('d-mo').textContent=fms(mo);
+  var ce=moE.filter(function(e){return(e.proc||'').toLowerCase().indexOf('curso')>=0;});
+  var pe=moE.filter(function(e){return(e.proc||'').toLowerCase().indexOf('curso')<0;});
+  document.getElementById('d-proc-v').textContent=fms(pe.reduce(function(s,e){return s+Number(e.valor);},0));
+  document.getElementById('d-proc-c').textContent=pe.length+' lancamentos';
+  document.getElementById('d-curso-v').textContent=fms(ce.reduce(function(s,e){return s+Number(e.valor);},0));
+  document.getElementById('d-curso-c').textContent=ce.length+' cursos';
+  var rec=C.slice(0,4);var el=document.getElementById('d-rec');
+  if(!rec.length){el.innerHTML='<div class="empty" style="padding:18px"><div class="ei2" style="font-size:22px">&#9672;</div><div class="et">Nenhuma cliente</div></div>';return;}
+  el.innerHTML=rec.map(function(c){var lt=c.treatments&&c.treatments.length?c.treatments[c.treatments.length-1]:null;var av=c.profilePic?'<img src="'+c.profilePic+'" alt="">':ini(c.name);return'<div class="cc" data-id="'+c.id+'"><div class="cav">'+av+'</div><div class="ci"><div class="cn">'+c.name+'</div><div class="cs">'+(lt?lt.type+' . '+fd(lt.date):'Sem tratamentos')+'</div></div><span style="color:var(--nm);font-size:14px">&#8250;</span></div>';}).join('');
+  el.querySelectorAll('.cc').forEach(function(card){card.onclick=function(){openP(card.dataset.id);};});
+}
+
+function rCal(){
+  var mns=['Janeiro','Fevereiro','Marco','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+  var te=document.getElementById('ct');if(!te)return;te.textContent=mns[calm]+' '+caly;
+  var td=new Date().toISOString().split('T')[0];var fd2=new Date(caly,calm,1).getDay();var dim=new Date(caly,calm+1,0).getDate();var dip=new Date(caly,calm,0).getDate();
+  var h='';for(var i=fd2-1;i>=0;i--)h+='<div class="cd om"><div class="cdn">'+(dip-i)+'</div></div>';
+  for(var d=1;d<=dim;d++){var ds=caly+'-'+String(calm+1).padStart(2,'0')+'-'+String(d).padStart(2,'0');var ht=TAR.some(function(t){return t.date===ds&&!t.done;});var it=ds===td;var isSel=ds===seldt;h+='<div class="cd'+(it?' today':'')+(isSel&&!it?' sel':'')+(ht?' hast':'')+'" data-ds="'+ds+'"><div class="cdn">'+d+'</div>'+(ht?'<div style="width:4px;height:4px;border-radius:50%;background:'+(it?'white':'var(--gold)')+'"></div>':'')+'</div>';}
+  var tot2=fd2+dim;var rem=tot2%7===0?0:7-(tot2%7);for(var d2=1;d2<=rem;d2++)h+='<div class="cd om"><div class="cdn">'+d2+'</div></div>';
+  var g=document.getElementById('cal-grid');g.innerHTML=h;
+  g.querySelectorAll('.cd:not(.om)').forEach(function(cell){cell.onclick=function(){selDt(cell.dataset.ds);};});
+  rDayT();rAllT();
+}
+function selDt(ds){seldt=ds;var p=ds.split('-');document.getElementById('sdlbl').textContent=p[2]+'/'+p[1]+'/'+p[0];rCal();}
+function addTask(){var txt=document.getElementById('task-inp').value.trim();if(!txt)return;var pri=document.getElementById('task-pri').value;var nt={id:Date.now().toString(),text:txt,date:seldt,priority:pri,done:false,createdAt:new Date().toISOString()};TAR.unshift(nt);star();document.getElementById('task-inp').value='';rCal();tst('Tarefa adicionada!');}
+function togTask(id){var t=TAR.find(function(x){return x.id===id;});if(t){t.done=!t.done;star();rCal();}}
+function delTask(id){TAR=TAR.filter(function(x){return x.id!==id;});star();rCal();}
+function rDayT(){
+  var el=document.getElementById('day-tasks');if(!el)return;
+  var dt=TAR.filter(function(t){return t.date===seldt;});
+  if(!dt.length){el.innerHTML='<div style="font-size:11px;color:var(--nm);text-align:center;padding:9px 0">Nenhuma tarefa neste dia</div>';return;}
+  el.innerHTML=dt.map(function(t){return'<div class="tski"><button class="tck'+(t.done?' done':'')+'" data-id="'+t.id+'">'+(t.done?'&#10003;':'')+'</button><div style="flex:1"><div class="ttxt'+(t.done?' done':'')+'>'+t.text+'</div>'+(t.priority==='urgente'?'<span class="turg">Urgente</span>':'')+'</div><button class="tdel" data-id="'+t.id+'">&#10005;</button></div>';}).join('');
+  el.querySelectorAll('.tck').forEach(function(b){b.onclick=function(){togTask(b.dataset.id);};});el.querySelectorAll('.tdel').forEach(function(b){b.onclick=function(){delTask(b.dataset.id);};});
+}
+function rAllT(){
+  var el=document.getElementById('all-tasks');if(!el)return;
+  var up=TAR.filter(function(t){return!t.done;}).sort(function(a,b){return new Date(a.date)-new Date(b.date);}).slice(0,10);
+  if(!up.length){el.innerHTML='<div class="empty" style="padding:18px 0"><div class="ei2" style="font-size:22px">&#9998;</div><div class="et">Nenhuma tarefa pendente</div></div>';return;}
+  el.innerHTML=up.map(function(t){return'<div class="upt" data-ds="'+t.date+'"><button class="tck'+(t.done?' done':'')+'" data-id="'+t.id+'">'+(t.done?'&#10003;':'')+'</button><div style="flex:1"><div class="ttxt">'+t.text+'</div>'+(t.priority==='urgente'?'<span class="turg">Urgente</span>':'')+'</div><div style="font-size:9px;font-weight:500;text-transform:uppercase;color:var(--nm);white-space:nowrap">'+fd(t.date)+'</div></div>';}).join('');
+  el.querySelectorAll('.tck').forEach(function(b){b.onclick=function(ev){ev.stopPropagation();togTask(b.dataset.id);};});el.querySelectorAll('.upt').forEach(function(row){row.onclick=function(){selDt(row.dataset.ds);sw('tarefas');};});
+}
+
+function rEst(){
+  var el=document.getElementById('est-list');if(!el)return;
+  if(!EST.length){el.innerHTML='<div class="empty" style="padding:24px 0"><div class="ei2">&#128230;</div><div class="et">Nenhum produto</div></div>';return;}
+  el.innerHTML=EST.map(function(item){return'<div class="esti"><div class="estph">'+(item.foto?'<img src="'+item.foto+'" alt="">':'&#128230;')+'</div><div class="einf"><div class="eina">'+item.nome+'</div><div class="eime">'+(item.fornecedor||'')+(item.fone?' . '+item.fone:'')+'</div><div class="eime">Qtd: '+item.qtd+'</div></div><div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px"><div style="font-family:Cormorant Garamond,serif;font-size:16px;color:var(--gr)">'+(Number(item.valor)>0?'R$'+Number(item.valor).toFixed(2).replace('.',','):'--')+'</div><button class="edel estdl" data-id="'+item.id+'">&#10005;</button></div></div>';}).join('');
+  el.querySelectorAll('.estdl').forEach(function(b){b.onclick=function(){var did=b.dataset.id;EST=EST.filter(function(e){return e.id!==did;});sest();rEst();tst('Produto removido!');};});
+}
+function addEst(){
+  var nome=document.getElementById('est-nome').value.trim();if(!nome){tst('Informe o nome');return;}
+  var item={id:Date.now().toString(),nome:nome,qtd:document.getElementById('est-qtd').value||'0',valor:document.getElementById('est-val').value||'0',fornecedor:document.getElementById('est-forn').value.trim(),fone:document.getElementById('est-fone').value.trim(),foto:estpd||null,createdAt:new Date().toISOString()};
+  EST.unshift(item);sest();['est-nome','est-qtd','est-val','est-forn','est-fone'].forEach(function(id){document.getElementById(id).value='';});document.getElementById('est-prev').innerHTML='&#128230;';estpd=null;rEst();tst('Produto adicionado!');
+}
+
+function upCl(b64,folder){return new Promise(function(resolve){try{var fd2=new FormData();fd2.append('file',b64);fd2.append('upload_preset','ketyla_unsigned');fd2.append('folder','estudio-ketyla/'+folder);fetch('https://api.cloudinary.com/v1_1/ddzptvfq3/image/upload',{method:'POST',body:fd2}).then(function(r){return r.json();}).then(function(d){resolve(d.secure_url||null);}).catch(function(){resolve(null);});}catch(e){resolve(null);}});}
+
+function expData(){var d={clientes:C,financeiro:E,estoque:EST,tarefas:TAR,despesas:DESP,exportedAt:new Date().toISOString()};var b=new Blob([JSON.stringify(d,null,2)],{type:'application/json'});var u=URL.createObjectURL(b);var a=document.createElement('a');a.href=u;a.download='studio-ketyla-'+new Date().toISOString().split('T')[0]+'.json';a.click();URL.revokeObjectURL(u);tst('Dados exportados!');}
+
+document.querySelectorAll('.nb').forEach(function(btn){btn.onclick=function(){sw(btn.dataset.s);};});
+document.getElementById('btn-new').onclick=openM;
+document.getElementById('btn-exp').onclick=expData;
+document.getElementById('modal').onclick=function(e){if(e.target===this)closeM();};
+document.getElementById('mc').onclick=closeM;
+document.getElementById('btn-cad').onclick=createC;
+document.getElementById('pb').onclick=closeP;
+document.getElementById('pclose').onclick=closeP;
+document.getElementById('pav').onclick=function(){document.getElementById('p-ph').click();};
+document.getElementById('pavb').onclick=function(){document.getElementById('p-ph').click();};
+document.querySelectorAll('.ptab').forEach(function(tab){tab.onclick=function(){document.querySelectorAll('.ptab').forEach(function(t){t.classList.remove('active');});document.querySelectorAll('.psec').forEach(function(s){s.classList.remove('active');});tab.classList.add('active');document.getElementById('tab-'+tab.dataset.tab).classList.add('active');};});
+document.getElementById('btn-sd').onclick=saveD;
+document.getElementById('btn-sa').onclick=saveA;
+document.getElementById('btn-al').onclick=addAl;document.getElementById('al-inp').onkeydown=function(e){if(e.key==='Enter')addAl();};
+document.getElementById('btn-hc').onclick=addHc;document.getElementById('hc-inp').onkeydown=function(e){if(e.key==='Enter')addHc();};
+document.getElementById('btn-treat').onclick=addTreat;
+document.getElementById('btn-reg').onclick=addEnt;
+document.getElementById('fcp').onclick=function(){fcalm--;if(fcalm<0){fcalm=11;fcaly--;}rFCal();};
+document.getElementById('fcn').onclick=function(){fcalm++;if(fcalm>11){fcalm=0;fcaly++;}rFCal();};
+document.getElementById('cp').onclick=function(){calm--;if(calm<0){calm=11;caly--;}rCal();};
+document.getElementById('cn').onclick=function(){calm++;if(calm>11){calm=0;caly++;}rCal();};
+document.getElementById('btn-task').onclick=addTask;
+document.getElementById('task-inp').onkeydown=function(e){if(e.key==='Enter')addTask();};
+document.getElementById('btn-est-add').onclick=addEst;
+document.getElementById('btn-ef').onclick=function(){document.getElementById('est-ph-inp').click();};
+document.getElementById('est-prev').onclick=function(){document.getElementById('est-ph-inp').click();};
+document.getElementById('est-ph-inp').onchange=function(e){var f=e.target.files[0];if(!f)return;var r=new FileReader();r.onload=function(ev){estpd=ev.target.result;document.getElementById('est-prev').innerHTML='<img src="'+ev.target.result+'" style="width:100%;height:100%;object-fit:cover">';};r.readAsDataURL(f);e.target.value='';};
+document.getElementById('search-inp').oninput=rCli;
+document.getElementById('btn-desp').onclick=addDesp;
+sug('fin-proc','proc-sug',PROCS);
+sug('fin-loc','loc-sug',LOCAIS);
+
+rCli();
+</script>
+</body>
+</html>
